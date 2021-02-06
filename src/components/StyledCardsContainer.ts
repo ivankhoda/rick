@@ -1,17 +1,4 @@
 import styled from "styled-components";
-type SliderWrapperProps = {
-  zoomFactor: number;
-  visibleSlides: number;
-};
-
-type SliderProps = {
-  visibleSlides: number;
-  transformValue: string;
-  zoomFactor: number;
-  slideMargin: number;
-  pageTransition: number;
-  ref: any;
-};
 
 export const StyledCardsContainer = styled.div`
   display: grid;

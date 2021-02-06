@@ -1,10 +1,10 @@
 import { Button, ButtonGroup } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import "./App.css";
 import CardsContainer from "./components/CardsContainer";
 import PagesContainer from "./components/PagesContainer";
 import { Character } from "./types/CharacterType";
+
 type Info = {
   count: number;
   next: string;
