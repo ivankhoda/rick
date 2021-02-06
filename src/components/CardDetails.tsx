@@ -25,7 +25,6 @@ type Props = {
 const CardDetails: React.FC<Props> = ({ character }) => {
   const classes = useStyles();
 
-  console.log(character.episode);
   return (
     <Card className={classes.root}>
       <CardMedia className={classes.media} image={character.image} />
