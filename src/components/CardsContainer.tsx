@@ -23,7 +23,7 @@ const CardsContainer: React.FC<IProps> = (props) => {
   if (!StyledCardComponent) {
     return <div>Loading...</div>;
   }
-  console.log(active);
+
   return (
     <div>
       <Dialog
