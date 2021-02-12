@@ -5,7 +5,8 @@ export const StyledCardsContainer = styled.div`
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 20px;
   //max-width: 1300px;
-
+  padding: 20px;
+  margin: 15px;
   overflow: hidden;
   position: relative;
   background: #60cbe6;

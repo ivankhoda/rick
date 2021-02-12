@@ -24,7 +24,7 @@ type Props = {
 
 const CardDetails: React.FC<Props> = ({ character }) => {
   const classes = useStyles();
-
+  const episodeUrl = "https://rickandmortyapi.com/api/episode/";
   return (
     <Card className={classes.root}>
       <CardMedia className={classes.media} image={character.image} />
@@ -50,7 +50,12 @@ const CardDetails: React.FC<Props> = ({ character }) => {
         <Typography color="textSecondary">Episodes:</Typography>
 
         {character.episode.map((ep: any) => (
-          <Chip key={ep} style={{ margin: 3 }} size="small" label={ep} />
+          <Chip
+            key={ep}
+            style={{ margin: 3 }}
+            size="small"
+            label={ep.replace(episodeUrl, "")}
+          />
         ))}
       </CardContent>
     </Card>
