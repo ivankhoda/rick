@@ -43,19 +43,14 @@ const CardDetails: React.FC<Props> = ({ character }) => {
           <br />
           Species: {character.species}
           <br />
-          Episodes total {character.episode.length}
+          Episodes total: {character.episode.length}
           <br />
         </Typography>
 
         <Typography color="textSecondary">Episodes:</Typography>
 
         {character.episode.map((ep: any) => (
-          <Chip
-            key={ep}
-            style={{ margin: 3 }}
-            size="small"
-            label={ep.replace(episodeUrl, "")}
-          />
+          <Chip key={ep} style={{ margin: 3 }} size="small" label={ep.replace(episodeUrl, "")} />
         ))}
       </CardContent>
     </Card>

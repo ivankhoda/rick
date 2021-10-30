@@ -1,6 +1,7 @@
 import { Typography } from "@material-ui/core";
 import React from "react";
 import "../App.css";
+import { StyledPagesContainer } from "./StyledPagesContainer";
 
 interface IProps {
   count: number;
@@ -24,14 +25,14 @@ const PagesContainer: React.FC<IProps> = (props) => {
   createLinks(baseLink, props.pages);
 
   return (
-    <div>
+    <StyledPagesContainer>
       <Typography gutterBottom variant="h5">
         Total characters: {props.count}
       </Typography>
       <Typography gutterBottom variant="h5">
         Total pages: {props.pages}
       </Typography>
-    </div>
+    </StyledPagesContainer>
   );
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import { StyledCardComponent } from "./CardComponentStyles";
 // Styles
 
-type SliderItemProps = {
+type ItemProps = {
   slideClass: string;
   zoomFactor: number;
   id: number;
@@ -12,7 +12,7 @@ type SliderItemProps = {
   visibleSlides: number;
 };
 
-const SliderItem: React.FC<SliderItemProps> = ({
+const Item: React.FC<ItemProps> = ({
   slideMargin,
   visibleSlides,
   zoomFactor,
@@ -34,4 +34,4 @@ const SliderItem: React.FC<SliderItemProps> = ({
   </StyledCardComponent>
 );
 
-export default SliderItem;
+export default Item;
