@@ -1,4 +1,4 @@
-import { InputLabel, MenuItem, Select } from "@material-ui/core";
+import { InputLabel } from "@material-ui/core";
 import React from "react";
 
 type Options = {
@@ -9,13 +9,13 @@ type Options = {
   items: Item[];
 };
 type Item = {
-  value: string;
+  value: string | undefined;
   label: string;
 };
 
 export const FormSelect = (props: Options) => {
   const { name, id, label, items } = props;
-  const [item, setItem] = React.useState<string | null>(null);
+  const [item, setItem] = React.useState("");
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     console.log(event.target.value);
@@ -25,13 +25,13 @@ export const FormSelect = (props: Options) => {
   return (
     <>
       <InputLabel id="Label">{label}</InputLabel>
-      <Select name={name} id={id} value={item} label={label} onChange={handleChange}>
+      <select name={name} id={id} value={item} onChange={handleChange}>
         {items.map((item) => (
-          <MenuItem key={item.value} value={item.value}>
+          <option key={item.label} value={item.value}>
             {item.value}
-          </MenuItem>
+          </option>
         ))}
-      </Select>
+      </select>
     </>
   );
 };

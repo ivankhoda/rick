@@ -44,8 +44,8 @@ const statuses = [
   },
 ];
 const selects = [
-  { name: "female", id: "selectGender", label: "Gender", value: "", items: genders },
-  { name: "alive", id: "selectStatus", label: "Status", value: "", items: statuses },
+  { name: "gender", id: "selectGender", label: "Gender", value: "", items: genders },
+  { name: "status", id: "selectStatus", label: "Status", value: "", items: statuses },
 ];
 const inputfFields = [
   { label: "Input name", placeholder: "Rick", id: "Name" },

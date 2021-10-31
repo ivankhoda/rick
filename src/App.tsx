@@ -12,12 +12,7 @@ type Info = {
   pages: number;
   prev: string;
 };
-type Status = {
-  status: string;
-};
-type Gender = {
-  gender: "female" | "male" | "genderless" | "unknown";
-};
+
 type CharacterQuery = {
   name?: string;
   status?: string;
@@ -39,31 +34,32 @@ const StyledApp = styled.div`
 
 const baseLink = `https://rickandmortyapi.com/api/character?page=`;
 const linkForFiltering = `https://rickandmortyapi.com/api/character/?`;
-const Char: CharacterQuery = {
-  name: "Rick",
-  status: "alive",
-  species: "human",
-  //type?: string;
-  gender: "male",
+
+const createQuery = (query: string, queryOptions: void) => {
+  let filteredQuery = query + queryOptions;
+  return filteredQuery;
 };
 
-// const createQuery = (props: CharacterQuery) => {
-//   let initialQuery = linkForFiltering;
-// };
-const checkInputs = (props: CharacterQuery) => {
-  let empty = null || undefined || 0 || 1;
-  console.log(props.name?.length);
+const removeLastSymbol = (props: string) => {
+  let str;
+  str = props.substring(0, props.length - 1);
+  return str;
+};
+const makeInputValuesToString = (props: object, callback: (arg: string) => void) => {
+  let str = "";
 
-  console.log(props.type?.length);
-  console.log(props.species?.length);
-  console.log(props.gender?.length);
-  console.log(props.status?.length);
+  for (const [p, value] of Object.entries(props)) {
+    str += `${p}=${value.toLowerCase()}&`;
+  }
+  return callback(str);
+};
 
-  let obj = Object.fromEntries(Object.entries(props).filter(([key, value]) => value!.length === empty));
-  console.log(obj);
+const removeEmptyInputs = (props: CharacterQuery) => {
+  let empty = null || undefined || 0;
 
-  //console.log(params);
-  //Object.entries(props).reduce((a,[k,v]) => (v == null ? a : (a[k]=v, a)), {})
+  let filteredObject = Object.fromEntries(Object.entries(props).filter(([key, value]) => value!.length !== empty));
+
+  return filteredObject;
 };
 
 //https://rickandmortyapi.com/api/character/?name=rick&status=alive
@@ -72,25 +68,31 @@ const App: React.FC = () => {
   const [info, setInfo] = useState<Info>();
 
   const getData = async (link: string) => {
-    const data = await (await fetch(`${link}`)).json();
+    console.log(link);
+    const data = await (await fetch(`${link}`, { method: "GET" })).json();
     setData(data.results);
     setInfo(data.info);
   };
 
+  useEffect(() => {
+    getData(baseLink);
+  }, []);
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
     let name = (document.getElementById("Name") as HTMLInputElement).value;
     let species = (document.getElementById("Species") as HTMLInputElement).value;
     let type = (document.getElementById("Type") as HTMLInputElement).value;
-    let gender = (document.getElementById("selectGender") as HTMLInputElement).innerText;
-    let status = (document.getElementById("selectStatus") as HTMLInputElement).innerText;
-    checkInputs({ name, species, type, gender, status });
-  };
-  useEffect(() => {
-    getData(baseLink);
-  }, []);
+    let gender = (document.getElementById("selectGender") as HTMLSelectElement).value;
+    let status = (document.getElementById("selectStatus") as HTMLSelectElement).value;
+    let inputs = { name, species, type, gender, status };
+    let filteredInputValuesObject = removeEmptyInputs(inputs);
+    let queryOptions = makeInputValuesToString(filteredInputValuesObject, removeLastSymbol);
 
+    let query = createQuery(linkForFiltering, queryOptions);
+    console.log(query);
+    getData(query);
+  };
   if (!info) {
     return <div>Loading...</div>;
   }
