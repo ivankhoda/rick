@@ -29,7 +29,7 @@ export const StyledCard = styled.div`
   img {
     height: 100%;
     width: 100%;
-    border-radius: 0.5vw 0.5vw 0 0;
+    border-radius: 0.2vw 0.2vw 0 0;
     box-sizing: border-box;
   }
   h1 {

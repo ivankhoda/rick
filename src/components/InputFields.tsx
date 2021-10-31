@@ -14,9 +14,10 @@ export const InputFields = (props: Options) => {
   const { items } = props;
   const [value, setValue] = React.useState("");
 
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    console.log(event.target.value);
-    setValue(event.target.value as string);
+  const handleChange = (event: React.ChangeEvent<{ value: string }>) => {
+    let value = event.target.value;
+
+    setValue(value);
   };
 
   return (

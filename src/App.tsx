@@ -39,24 +39,32 @@ const StyledApp = styled.div`
 
 const baseLink = `https://rickandmortyapi.com/api/character?page=`;
 const linkForFiltering = `https://rickandmortyapi.com/api/character/?`;
-// const Char: CharacterQuery = {
-//   name: "Rick",
-//   status: "alive",
-//   species: "human",
-//   //type?: string;
-//   gender: "male",
-// };
-
-// { female: "female" }, { male: "male" }, { genderless: "genderless" }, { unknown: "unknown" }
+const Char: CharacterQuery = {
+  name: "Rick",
+  status: "alive",
+  species: "human",
+  //type?: string;
+  gender: "male",
+};
 
 // const createQuery = (props: CharacterQuery) => {
 //   let initialQuery = linkForFiltering;
 // };
-// const checkInputs = (props: CharacterQuery) => {
-//   console.log(props);
-//   console.log(Object.keys(props));
-// };
-// checkInputs(Char);
+const checkInputs = (props: CharacterQuery) => {
+  let empty = null || undefined || 0 || 1;
+  console.log(props.name?.length);
+
+  console.log(props.type?.length);
+  console.log(props.species?.length);
+  console.log(props.gender?.length);
+  console.log(props.status?.length);
+
+  let obj = Object.fromEntries(Object.entries(props).filter(([key, value]) => value!.length === empty));
+  console.log(obj);
+
+  //console.log(params);
+  //Object.entries(props).reduce((a,[k,v]) => (v == null ? a : (a[k]=v, a)), {})
+};
 
 //https://rickandmortyapi.com/api/character/?name=rick&status=alive
 const App: React.FC = () => {
@@ -68,15 +76,16 @@ const App: React.FC = () => {
     setData(data.results);
     setInfo(data.info);
   };
+
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    let name = document.getElementById("Name");
-    console.log(event.currentTarget);
-    console.log(document.getElementById("Species")?.innerText);
-    console.log(name, "name");
-    console.log(document.getElementById("Type")?.innerHTML);
-    console.log(document.getElementById("selectGender")?.innerHTML);
-    console.log(document.getElementById("selectStatus")?.innerText);
+
+    let name = (document.getElementById("Name") as HTMLInputElement).value;
+    let species = (document.getElementById("Species") as HTMLInputElement).value;
+    let type = (document.getElementById("Type") as HTMLInputElement).value;
+    let gender = (document.getElementById("selectGender") as HTMLInputElement).innerText;
+    let status = (document.getElementById("selectStatus") as HTMLInputElement).innerText;
+    checkInputs({ name, species, type, gender, status });
   };
   useEffect(() => {
     getData(baseLink);

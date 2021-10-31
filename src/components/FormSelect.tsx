@@ -15,9 +15,10 @@ type Item = {
 
 export const FormSelect = (props: Options) => {
   const { name, id, label, items } = props;
-  const [item, setItem] = React.useState("");
+  const [item, setItem] = React.useState<string | null>(null);
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    console.log(event.target.value);
     setItem(event.target.value as string);
   };
 
