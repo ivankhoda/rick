@@ -1,5 +1,6 @@
 import { Button, ButtonGroup } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
+import { getCharacters } from "rickmortyapi";
 import styled from "styled-components";
 import CardsContainer from "./components/CardsContainer";
 import { Form } from "./components/FormControl";
@@ -66,7 +67,15 @@ const App: React.FC = () => {
 
     let query = createQuery(linkForFiltering, queryOptions);
     console.log(query);
-    getData(query);
+    const chars = getCharacters({
+      name,
+      species,
+      type,
+      gender,
+      status,
+    }).then((d) => console.log(d.data));
+    console.log(chars);
+    //getData(query);
   };
   if (!info) {
     return <div>Loading...</div>;
