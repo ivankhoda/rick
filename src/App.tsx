@@ -33,7 +33,7 @@ const StyledApp = styled.div`
 `;
 
 const baseLink = `https://rickandmortyapi.com/api/character?page=`;
-const linkForFiltering = `https://rickandmortyapi.com/api/character/?`;
+const linkForFiltering = `http://rickandmortyapi.com/api/character/?`;
 
 const createQuery = (query: string, queryOptions: void) => {
   let filteredQuery = query + queryOptions;
@@ -62,14 +62,14 @@ const removeEmptyInputs = (props: CharacterQuery) => {
   return filteredObject;
 };
 
-//https://rickandmortyapi.com/api/character/?name=rick&status=alive
+//let charlink = "https://rickandmortyapi.com/api/character/?name=rick&status=alive";
 const App: React.FC = () => {
   const [data, setData] = useState<Character[]>([]);
   const [info, setInfo] = useState<Info>();
 
   const getData = async (link: string) => {
     console.log(link);
-    const data = await (await fetch(`${link}`, { method: "GET" })).json();
+    const data = await (await fetch(`${link}`)).json();
     setData(data.results);
     setInfo(data.info);
   };
