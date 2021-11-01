@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledCardComponent } from "./CardComponentStyles";
+import { StyledCard } from "./Card/StyledCard";
 // Styles
 
 type ItemProps = {
@@ -22,7 +22,7 @@ const Item: React.FC<ItemProps> = ({
   callbackOut,
   children,
 }) => (
-  <StyledCardComponent
+  <StyledCard
     zoomFactor={zoomFactor}
     slideMargin={slideMargin}
     visibleSlides={visibleSlides}
@@ -31,7 +31,7 @@ const Item: React.FC<ItemProps> = ({
     onMouseOut={callbackOut}
   >
     {children}
-  </StyledCardComponent>
+  </StyledCard>
 );
 
 export default Item;

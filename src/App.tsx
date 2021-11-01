@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import CardsContainer from "./components/CardsContainer";
 import { Form } from "./components/FormControl";
-import PagesContainer from "./components/PagesContainer";
+import { PagesContainer } from "./components/PagesContainer";
 import { Character } from "./types/CharacterType";
+import { createQuery, makeInputValuesToString, removeEmptyInputs, removeLastSymbol } from "./utils";
 
 type Info = {
   count: number;
@@ -13,13 +14,6 @@ type Info = {
   prev: string;
 };
 
-type CharacterQuery = {
-  name?: string;
-  status?: string;
-  species?: string;
-  type?: string;
-  gender?: string;
-};
 const StyledControlPanel = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,45 +27,25 @@ const StyledApp = styled.div`
 `;
 
 const baseLink = `https://rickandmortyapi.com/api/character?page=`;
-const linkForFiltering = `http://rickandmortyapi.com/api/character/?`;
+const linkForFiltering = `https://rickandmortyapi.com/api/character/?`;
 
-const createQuery = (query: string, queryOptions: void) => {
-  let filteredQuery = query + queryOptions;
-  return filteredQuery;
-};
-
-const removeLastSymbol = (props: string) => {
-  let str;
-  str = props.substring(0, props.length - 1);
-  return str;
-};
-const makeInputValuesToString = (props: object, callback: (arg: string) => void) => {
-  let str = "";
-
-  for (const [p, value] of Object.entries(props)) {
-    str += `${p}=${value.toLowerCase()}&`;
-  }
-  return callback(str);
-};
-
-const removeEmptyInputs = (props: CharacterQuery) => {
-  let empty = null || undefined || 0;
-
-  let filteredObject = Object.fromEntries(Object.entries(props).filter(([key, value]) => value!.length !== empty));
-
-  return filteredObject;
-};
-
-//let charlink = "https://rickandmortyapi.com/api/character/?name=rick&status=alive";
 const App: React.FC = () => {
   const [data, setData] = useState<Character[]>([]);
   const [info, setInfo] = useState<Info>();
 
   const getData = async (link: string) => {
-    console.log(link);
-    const data = await (await fetch(`${link}`)).json();
-    setData(data.results);
-    setInfo(data.info);
+    fetch(`${link}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((d) => d.json())
+      .then((data) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        setData(data.results), setInfo(data.info);
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {

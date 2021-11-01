@@ -18,7 +18,6 @@ export const FormSelect = (props: Options) => {
   const [item, setItem] = React.useState("");
 
   const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    console.log(event.target.value);
     setItem(event.target.value as string);
   };
 

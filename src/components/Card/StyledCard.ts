@@ -7,7 +7,7 @@ type Props = {
   className: string;
 };
 
-export const StyledCardComponent = styled.div<Props>`
+export const StyledCard = styled.div<Props>`
   margin: 0 ${(props) => props.slideMargin}px;
   transition: transform 500ms ease;
   border-radius: 20px;
@@ -19,11 +19,7 @@ export const StyledCardComponent = styled.div<Props>`
   transform: scale(1);
   user-select: none;
 
-  flex: 0 0
-    calc(
-      100% / ${(props) => props.visibleSlides} -
-        ${(props) => props.slideMargin * 2}px
-    );
+  flex: 0 0 calc(100% / ${(props) => props.visibleSlides} - ${(props) => props.slideMargin * 2}px);
 
   img {
     height: 100%;

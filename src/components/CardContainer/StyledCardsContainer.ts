@@ -37,22 +37,17 @@ export const StyledCard = styled.div`
   :hover {
     transform: scale(${() => 5 / 100 + 1}) !important;
   }
-
   :hover ~ * {
     transform: translateX(${() => 5 / 2 + "%"}) !important;
   }
-
   &.left {
     transform-origin: left;
-
     :hover ~ * {
       transform: translateX(${() => 15 + "%"}) !important;
     }
   }
-
   &.right {
     transform-origin: right;
-
     :hover ~ * {
       transform: translateX(0%) !important;
     }

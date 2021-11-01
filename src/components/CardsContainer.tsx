@@ -2,9 +2,9 @@ import { Dialog } from "@material-ui/core";
 import React, { useState } from "react";
 import "../App.css";
 import { Character } from "../types/CharacterType";
-import { StyledCardComponent } from "./CardComponentStyles";
+//import StyledCard from "./StyledCard";
+import { StyledCard, StyledCardsContainer } from "./CardContainer/StyledCardsContainer";
 import CardDetails from "./CardDetails";
-import { StyledCard, StyledCardsContainer } from "./StyledCardsContainer";
 
 type IProps = {
   arr: Character[];
@@ -20,7 +20,7 @@ const CardsContainer: React.FC<IProps> = (props) => {
   };
   const charactersArray = props.arr;
 
-  if (!StyledCardComponent) {
+  if (!StyledCard) {
     return <div>Loading...</div>;
   }
 

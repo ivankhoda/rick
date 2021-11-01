@@ -11,7 +11,7 @@ interface IProps {
 }
 const baseLink = `https://rickandmortyapi.com/api/character?page=`;
 
-const PagesContainer: React.FC<IProps> = (props) => {
+export const PagesContainer: React.FC<IProps> = (props) => {
   const pagesTotal: string[] = [];
   let numeredLink: string;
   const createLinks = (link: string, num: number) => {
@@ -35,5 +35,3 @@ const PagesContainer: React.FC<IProps> = (props) => {
     </StyledPagesContainer>
   );
 };
-
-export default PagesContainer;
