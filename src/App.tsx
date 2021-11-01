@@ -36,6 +36,7 @@ const App: React.FC = () => {
   const getData = async (link: string) => {
     fetch(`${link}`, {
       method: "GET",
+
       headers: {
         "Content-Type": "application/json",
       },
