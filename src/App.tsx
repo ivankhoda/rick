@@ -1,18 +1,18 @@
 import { Button, ButtonGroup } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { getCharacters } from "rickmortyapi";
+import { Character } from "rickmortyapi/dist/interfaces";
 import styled from "styled-components";
 import CardsContainer from "./components/CardsContainer";
 import { Form } from "./components/FormControl";
 import { PagesContainer } from "./components/PagesContainer";
-import { Character } from "./types/CharacterType";
 import { createQuery, makeInputValuesToString, removeEmptyInputs, removeLastSymbol } from "./utils";
 
 type Info = {
   count: number;
-  next: string;
   pages: number;
-  prev: string;
+  next: string | null;
+  prev: string | null;
 };
 
 const StyledControlPanel = styled.div`
@@ -31,27 +31,33 @@ const baseLink = `https://rickandmortyapi.com/api/character?page=`;
 const linkForFiltering = `https://rickandmortyapi.com/api/character/?`;
 
 const App: React.FC = () => {
-  const [data, setData] = useState<Character[]>([]);
+  const [data, setData] = useState<Character[] | undefined>([]);
   const [info, setInfo] = useState<Info>();
 
-  const getData = async (link: string) => {
-    fetch(`${link}`, {
-      method: "GET",
-
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((d) => d.json())
-      .then((data) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        setData(data.results), setInfo(data.info);
-      })
-      .catch((err) => console.log(err));
+  const getData = async (link: string | null) => {
+    console.log(link);
+    // fetch(`${link}`, {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // })
+    //   //getCharacters()
+    //   .then((d) => d.json())
+    //   .then((data) => {
+    //     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    //     setData(data.results), setInfo(data.info);
+    //   })
+    //   .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    getData(baseLink);
+    getCharacters()
+      .then((data) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        setData(data.data.results), setInfo(data.data.info);
+      })
+      .catch((err) => console.log(err));
   }, []);
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -66,16 +72,20 @@ const App: React.FC = () => {
     let queryOptions = makeInputValuesToString(filteredInputValuesObject, removeLastSymbol);
 
     let query = createQuery(linkForFiltering, queryOptions);
-    console.log(query);
-    const chars = getCharacters({
-      name,
-      species,
-      type,
-      gender,
-      status,
-    }).then((d) => console.log(d.data));
-    console.log(chars);
-    //getData(query);
+
+    const filterCharacters = async () =>
+      await getCharacters({
+        name,
+        species,
+        type,
+        gender,
+        status,
+      }).then((d) => {
+        console.log(d.data.info);
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        setData(d.data.results), setInfo(d.data.info);
+      });
+    filterCharacters();
   };
   if (!info) {
     return <div>Loading...</div>;

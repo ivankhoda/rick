@@ -12,6 +12,7 @@ interface IProps {
 const baseLink = `https://rickandmortyapi.com/api/character?page=`;
 
 export const PagesContainer: React.FC<IProps> = (props) => {
+  console.log(props);
   const pagesTotal: string[] = [];
   let numeredLink: string;
   const createLinks = (link: string, num: number) => {

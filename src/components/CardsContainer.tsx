@@ -1,13 +1,14 @@
-import { Dialog } from "@material-ui/core";
+import { Dialog, Typography } from "@material-ui/core";
 import React, { useState } from "react";
+import { Character } from "rickmortyapi/dist/interfaces";
 import "../App.css";
-import { Character } from "../types/CharacterType";
+// import { Character } from "../types/CharacterType";
 //import StyledCard from "./StyledCard";
 import { StyledCard, StyledCardsContainer } from "./CardContainer/StyledCardsContainer";
 import CardDetails from "./CardDetails";
 
 type IProps = {
-  arr: Character[];
+  arr: Character[] | undefined;
 };
 
 const CardsContainer: React.FC<IProps> = (props) => {
@@ -36,17 +37,21 @@ const CardsContainer: React.FC<IProps> = (props) => {
       </Dialog>
 
       <StyledCardsContainer>
-        {charactersArray.map((character) => (
-          <StyledCard
-            key={character.id}
-            onClick={() => {
-              handleOpen(character);
-            }}
-          >
-            <img src={character.image} alt="Card name" />
-            <h1>{character.name}</h1>
-          </StyledCard>
-        ))}
+        {charactersArray ? (
+          charactersArray.map((character) => (
+            <StyledCard
+              key={character.id}
+              onClick={() => {
+                handleOpen(character);
+              }}
+            >
+              <img src={character.image} alt="Card name" />
+              <h1>{character.name}</h1>
+            </StyledCard>
+          ))
+        ) : (
+          <Typography>Uppps, seems like we cannot display anything</Typography>
+        )}
       </StyledCardsContainer>
     </div>
   );

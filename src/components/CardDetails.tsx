@@ -6,7 +6,7 @@ import CardMedia from "@material-ui/core/CardMedia";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import React from "react";
-import { Character } from "../types/CharacterType";
+import { Character } from "rickmortyapi/dist/interfaces";
 
 const useStyles = makeStyles({
   root: {
@@ -35,23 +35,26 @@ const CardDetails: React.FC<Props> = ({ character }) => {
         <Typography gutterBottom color="textSecondary">
           Status: {character.status}
           <br />
-          Origin: {character.origin.name}
+          Origin: {character.origin?.name}
           <br />
-          Location: {character.location.name}
+          Location: {character.location?.name}
           <br />
           Status: {character.status}
           <br />
           Species: {character.species}
           <br />
-          Episodes total: {character.episode.length}
+          Episodes total: {character.episode?.length}
           <br />
         </Typography>
 
         <Typography color="textSecondary">Episodes:</Typography>
-
-        {character.episode.map((ep: any) => (
-          <Chip key={ep} style={{ margin: 3 }} size="small" label={ep.replace(episodeUrl, "")} />
-        ))}
+        {character.episode ? (
+          character.episode.map((ep: any) => (
+            <Chip key={ep} style={{ margin: 3 }} size="small" label={ep.replace(episodeUrl, "")} />
+          ))
+        ) : (
+          <Typography>There is no infromation</Typography>
+        )}
       </CardContent>
     </Card>
   );
