@@ -39,8 +39,6 @@ const CardDetails: React.FC<Props> = ({ character }) => {
           <br />
           Location: {character.location?.name}
           <br />
-          Status: {character.status}
-          <br />
           Species: {character.species}
           <br />
           Episodes total: {character.episode?.length}
