@@ -2,11 +2,10 @@ import { Button, ButtonGroup } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import { getCharacters } from "rickmortyapi";
 import { Character } from "rickmortyapi/dist/interfaces";
-import styled from "styled-components";
 import { CardsContainer } from "./components/CardsContainer/index";
 import { Form } from "./components/FormControl/FormControl";
 import { PagesContainer } from "./components/PagesContainer/index";
-import { createQuery, makeInputValuesToString, removeEmptyInputs, removeLastSymbol } from "./utils";
+import { StyledApp, StyledControlPanel, StyledNotification } from "./StyledApp";
 
 type Info = {
   count: number;
@@ -15,23 +14,10 @@ type Info = {
   prev: string | null;
 };
 
-const StyledControlPanel = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const StyledApp = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  max-width: 100%;
-`;
-
-const linkForFiltering = `https://rickandmortyapi.com/api/character/?`;
-
 const App: React.FC = () => {
   const [data, setData] = useState<Character[] | undefined>([]);
   const [info, setInfo] = useState<Info>();
+  const [errorMessage, setErrorMessage] = useState("");
 
   const getData = async (link: string | null) => {
     fetch(`${link}`, {
@@ -42,9 +28,8 @@ const App: React.FC = () => {
     })
       .then((d) => d.json())
       .then((data) => {
-        console.log(data);
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        setData(data.results), setInfo(data.info);
+        setData(data.results);
+        setInfo(data.info);
       })
       .catch((err) => console.log(err));
   };
@@ -52,9 +37,8 @@ const App: React.FC = () => {
   useEffect(() => {
     getCharacters()
       .then((data) => {
-        console.log(data);
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        setData(data.data.results), setInfo(data.data.info);
+        setData(data.data.results);
+        setInfo(data.data.info);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -66,12 +50,7 @@ const App: React.FC = () => {
     let type = (document.getElementById("Type") as HTMLInputElement).value;
     let gender = (document.getElementById("selectGender") as HTMLSelectElement).value;
     let status = (document.getElementById("selectStatus") as HTMLSelectElement).value;
-    let inputs = { name, species, type, gender, status };
-    let filteredInputValuesObject = removeEmptyInputs(inputs);
-    let queryOptions = makeInputValuesToString(filteredInputValuesObject, removeLastSymbol);
-
-    let query = createQuery(linkForFiltering, queryOptions);
-
+    const success = 200;
     const filterCharacters = async () =>
       await getCharacters({
         name,
@@ -80,15 +59,18 @@ const App: React.FC = () => {
         gender,
         status,
       }).then((d) => {
-        console.log(d.data.info);
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        setData(d.data.results), setInfo(d.data.info);
+        if (d.status === success) {
+          setData(d.data.results);
+          setInfo(d.data.info);
+        }
+        setErrorMessage(d.statusMessage);
       });
     filterCharacters();
   };
-  if (!info) {
-    return <div>Loading...</div>;
+  if (!info || errorMessage) {
+    return <StyledNotification>{errorMessage ? errorMessage : "Loading..."}</StyledNotification>;
   }
+
   const { count, next, pages, prev } = { ...info };
 
   return (
