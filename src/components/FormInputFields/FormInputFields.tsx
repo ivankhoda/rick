@@ -10,7 +10,7 @@ type Item = {
   id: string;
 };
 
-export const InputFields = (props: Options) => {
+export const FormInputFields = (props: Options) => {
   const { items } = props;
   const [value, setValue] = React.useState("");
 

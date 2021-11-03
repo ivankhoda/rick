@@ -1,2 +1,1 @@
-//export * from "./CardComponent";
-export * from "./StyledCard";
+export * from "./StyledCardComponent";

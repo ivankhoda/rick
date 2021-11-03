@@ -1,1 +1,2 @@
-export * from "../StyledPagesContainer";
+export * from "./PagesContainer";
+export * from "./StyledPagesContainer";

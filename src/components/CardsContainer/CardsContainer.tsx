@@ -1,17 +1,16 @@
 import { Dialog, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 import { Character } from "rickmortyapi/dist/interfaces";
-import "../App.css";
+import CardDetails from "../CardDetails/CardDetails";
 // import { Character } from "../types/CharacterType";
 //import StyledCard from "./StyledCard";
-import { StyledCard, StyledCardsContainer } from "./CardContainer/StyledCardsContainer";
-import CardDetails from "./CardDetails";
+import { StyledCard, StyledCardsContainer } from "./StyledCardsContainer";
 
 type IProps = {
   arr: Character[] | undefined;
 };
 
-const CardsContainer: React.FC<IProps> = (props) => {
+export const CardsContainer: React.FC<IProps> = (props) => {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<Character>({} as Character);
 
@@ -57,4 +56,4 @@ const CardsContainer: React.FC<IProps> = (props) => {
   );
 };
 
-export default CardsContainer;
+//export default CardsContainer;

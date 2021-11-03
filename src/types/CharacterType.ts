@@ -2,9 +2,6 @@ type Place = {
   name: string;
   url: string;
 };
-// type Episodes = {
-//   episodes: any[];
-// };
 
 export type Char = {
   name?: string;

@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { getCharacters } from "rickmortyapi";
 import { Character } from "rickmortyapi/dist/interfaces";
 import styled from "styled-components";
-import CardsContainer from "./components/CardsContainer";
-import { Form } from "./components/FormControl";
-import { PagesContainer } from "./components/PagesContainer";
+import { CardsContainer } from "./components/CardsContainer/index";
+import { Form } from "./components/FormControl/FormControl";
+import { PagesContainer } from "./components/PagesContainer/index";
 import { createQuery, makeInputValuesToString, removeEmptyInputs, removeLastSymbol } from "./utils";
 
 type Info = {
@@ -27,7 +27,6 @@ const StyledApp = styled.div`
   max-width: 100%;
 `;
 
-const baseLink = `https://rickandmortyapi.com/api/character?page=`;
 const linkForFiltering = `https://rickandmortyapi.com/api/character/?`;
 
 const App: React.FC = () => {
@@ -35,25 +34,25 @@ const App: React.FC = () => {
   const [info, setInfo] = useState<Info>();
 
   const getData = async (link: string | null) => {
-    console.log(link);
-    // fetch(`${link}`, {
-    //   method: "GET",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // })
-    //   //getCharacters()
-    //   .then((d) => d.json())
-    //   .then((data) => {
-    //     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    //     setData(data.results), setInfo(data.info);
-    //   })
-    //   .catch((err) => console.log(err));
+    fetch(`${link}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((d) => d.json())
+      .then((data) => {
+        console.log(data);
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+        setData(data.results), setInfo(data.info);
+      })
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
     getCharacters()
       .then((data) => {
+        console.log(data);
         // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         setData(data.data.results), setInfo(data.data.info);
       })
