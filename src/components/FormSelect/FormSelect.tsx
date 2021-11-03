@@ -1,11 +1,11 @@
 import { InputLabel } from "@material-ui/core";
 import React from "react";
+import { StyledSelect, StyledSelectContainer } from ".";
 
 type Options = {
   name: string;
   id: string;
   label: string;
-
   items: Item[];
 };
 type Item = {
@@ -22,15 +22,15 @@ export const FormSelect = (props: Options) => {
   };
 
   return (
-    <>
+    <StyledSelectContainer>
       <InputLabel id="Label">{label}</InputLabel>
-      <select name={name} id={id} value={item} onChange={handleChange}>
+      <StyledSelect name={name} id={id} value={item} onChange={handleChange}>
         {items.map((item) => (
           <option key={item.label} value={item.value}>
             {item.value}
           </option>
         ))}
-      </select>
-    </>
+      </StyledSelect>
+    </StyledSelectContainer>
   );
 };

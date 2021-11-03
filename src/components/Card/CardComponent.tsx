@@ -1,5 +1,5 @@
 import React from "react";
-import { StyledCard } from "./Card/StyledCard";
+import { StyledCard } from "./StyledCardComponent";
 // Styles
 
 type ItemProps = {

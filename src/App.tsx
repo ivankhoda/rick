@@ -1,56 +1,46 @@
 import { Button, ButtonGroup } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import CardsContainer from "./components/CardsContainer";
-import { Form } from "./components/FormControl";
-import { PagesContainer } from "./components/PagesContainer";
-import { Character } from "./types/CharacterType";
-import { createQuery, makeInputValuesToString, removeEmptyInputs, removeLastSymbol } from "./utils";
+import { getCharacters } from "rickmortyapi";
+import { Character } from "rickmortyapi/dist/interfaces";
+import { CardsContainer } from "./components/CardsContainer/index";
+import { Form } from "./components/FormControl/FormControl";
+import { PagesContainer } from "./components/PagesContainer/index";
+import { StyledApp, StyledControlPanel, StyledNotification } from "./StyledApp";
 
 type Info = {
   count: number;
-  next: string;
   pages: number;
-  prev: string;
+  next: string | null;
+  prev: string | null;
 };
 
-const StyledControlPanel = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-const StyledApp = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  max-width: 100%;
-`;
-
-const baseLink = `https://rickandmortyapi.com/api/character?page=`;
-const linkForFiltering = `https://rickandmortyapi.com/api/character/?`;
-
 const App: React.FC = () => {
-  const [data, setData] = useState<Character[]>([]);
+  const [data, setData] = useState<Character[] | undefined>([]);
   const [info, setInfo] = useState<Info>();
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const getData = async (link: string) => {
+  const getData = async (link: string | null) => {
     fetch(`${link}`, {
       method: "GET",
-
       headers: {
         "Content-Type": "application/json",
       },
     })
       .then((d) => d.json())
       .then((data) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-        setData(data.results), setInfo(data.info);
+        setData(data.results);
+        setInfo(data.info);
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    getData(baseLink);
+    getCharacters()
+      .then((data) => {
+        setData(data.data.results);
+        setInfo(data.data.info);
+      })
+      .catch((err) => console.log(err));
   }, []);
   const onSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -60,17 +50,27 @@ const App: React.FC = () => {
     let type = (document.getElementById("Type") as HTMLInputElement).value;
     let gender = (document.getElementById("selectGender") as HTMLSelectElement).value;
     let status = (document.getElementById("selectStatus") as HTMLSelectElement).value;
-    let inputs = { name, species, type, gender, status };
-    let filteredInputValuesObject = removeEmptyInputs(inputs);
-    let queryOptions = makeInputValuesToString(filteredInputValuesObject, removeLastSymbol);
-
-    let query = createQuery(linkForFiltering, queryOptions);
-    console.log(query);
-    getData(query);
+    const success = 200;
+    const filterCharacters = async () =>
+      await getCharacters({
+        name,
+        species,
+        type,
+        gender,
+        status,
+      }).then((d) => {
+        if (d.status === success) {
+          setData(d.data.results);
+          setInfo(d.data.info);
+        }
+        setErrorMessage(d.statusMessage);
+      });
+    filterCharacters();
   };
-  if (!info) {
-    return <div>Loading...</div>;
+  if (!info || errorMessage) {
+    return <StyledNotification>{errorMessage ? errorMessage : "Loading..."}</StyledNotification>;
   }
+
   const { count, next, pages, prev } = { ...info };
 
   return (
