@@ -24,6 +24,7 @@ type Props = {
 
 const CardDetails: React.FC<Props> = ({ character }) => {
   const classes = useStyles();
+
   const episodeUrl = "https://rickandmortyapi.com/api/episode/";
   return (
     <Card className={classes.root}>
